@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colorado — Nossa Próxima Aventura</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sand: #E8DDD3;
+  --earth: #3B2F2A;
+  --terracotta: #BF6B3F;
+  --sage: #6E8B65;
+  --sky: #5B7FA5;
+  --cream: #F7F3EE;
+  --warm-white: #FDFBF8;
+  --deep: #1A1512;
+  --gold: #C4A265;
+  --blush: #D4A89A;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  color: var(--earth);
+  background: var(--warm-white);
+  overflow-x: hidden;
+  font-weight: 300;
+  line-height: 1.75;
+  font-size: 16px;
+}
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.2; }
+img { display: block; width: 100%; }
+a { color: var(--terracotta); text-decoration: none; }
+
+/* === HERO === */
+.hero {
+  height: 100vh; min-height: 750px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1920&q=85') center 30%/cover no-repeat;
+  filter: brightness(0.4) saturate(1.1);
+  animation: slowZoom 25s ease-in-out infinite alternate;
+}
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
+.hero-content { position: relative; z-index: 2; color: white; padding: 2rem; max-width: 800px; }
+.hero-eyebrow {
+  font-family: 'Outfit', sans-serif; font-weight: 500;
+  font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.8rem;
+  opacity: 0; animation: fadeUp 1s 0.3s ease forwards;
+}
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
+}
+.hero h1 em { font-style: italic; }
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 200;
+  max-width: 520px; margin: 0 auto 3rem; opacity: 0;
+  animation: fadeUp 1s 0.7s ease forwards; line-height: 1.8;
+}
+.hero-scroll {
+  opacity: 0; animation: fadeUp 1s 1s ease forwards;
+  display: inline-block; border: 1px solid rgba(255,255,255,0.3);
+  padding: 0.8rem 2.2rem; font-size: 0.7rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+  transition: all 0.3s; cursor: pointer;
+}
+.hero-scroll:hover { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.6); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === SECTION: INTRO === */
+.intro {
+  max-width: 680px; margin: 0 auto; padding: 7rem 2rem 5rem; text-align: center;
+}
+.intro h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1.5rem; }
+.intro p { font-size: 1.05rem; color: #5E4D43; }
+.line { width: 50px; height: 2px; background: var(--gold); margin: 2rem auto; }
+
+/* === SECTION: DAY BLOCK === */
+.day-block {
+  opacity: 0; transform: translateY(50px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.day-block.vis { opacity: 1; transform: translateY(0); }
+
+/* full-width photo header */
+.day-hero {
+  position: relative; height: 75vh; min-height: 480px; overflow: hidden;
+}
+.day-hero img { width: 100%; height: 100%; object-fit: cover; }
+.day-hero .overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,21,18,0.8) 0%, rgba(26,21,18,0.15) 55%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(2rem, 5vw, 4rem);
+  color: white;
+}
+.day-hero .day-num {
+  font-family: 'Outfit'; font-weight: 500; font-size: 0.65rem;
+  letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.day-hero h2 { font-size: clamp(2rem, 5vw, 3.2rem); max-width: 700px; }
+.day-hero h2 em { font-style: italic; }
+.day-hero .location {
+  font-size: 0.8rem; letter-spacing: 0.15em; margin-top: 0.8rem; opacity: 0.7;
+}
+
+/* content area */
+.day-content {
+  max-width: 780px; margin: 0 auto; padding: 3.5rem 2rem 2rem;
+}
+.day-content p { font-size: 1.05rem; color: #5E4D43; margin-bottom: 1.2rem; }
+.day-content p strong { font-weight: 500; color: var(--earth); }
+
+.rest-pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--sage); color: white;
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.2rem;
+}
+
+/* photo grid inside day */
+.photo-grid {
+  max-width: 1100px; margin: 2rem auto 0; padding: 0 1.5rem;
+  display: grid; gap: 0.6rem;
+}
+.photo-grid.g2 { grid-template-columns: 1fr 1fr; }
+.photo-grid.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.photo-grid.g21 { grid-template-columns: 2fr 1fr; }
+.photo-grid.g12 { grid-template-columns: 1fr 2fr; }
+.photo-grid img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 2px;
+  aspect-ratio: 3/2;
+}
+.photo-grid .tall { aspect-ratio: 2/3; }
+.photo-grid figcaption {
+  font-size: 0.75rem; color: #8A7B72; padding: 0.5rem 0.2rem 0; font-style: italic;
+}
+
+/* highlight card */
+.highlight {
+  max-width: 780px; margin: 2.5rem auto 0; padding: 0 2rem;
+}
+.highlight-inner {
+  background: var(--cream); border-left: 3px solid var(--gold);
+  padding: 1.5rem 2rem;
+}
+.highlight-inner .hl-tag {
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--terracotta); margin-bottom: 0.5rem;
+}
+.highlight-inner p { font-size: 0.95rem; color: #5E4D43; margin: 0; }
+
+/* spacer between days */
+.day-spacer { height: 5rem; }
+
+/* === FULL-WIDTH QUOTE BREAK === */
+.quote-break {
+  position: relative; height: 60vh; min-height: 380px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.quote-break img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.35) saturate(1.1);
+}
+.quote-break .inner {
+  position: relative; z-index: 2; color: white; padding: 2rem; max-width: 650px;
+}
+.quote-break h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); font-style: italic; margin-bottom: 0.8rem; }
+.quote-break p { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
+
+/* === STATS BAR === */
+.stats-bar {
+  background: var(--deep); color: var(--sand); padding: 5rem 2rem;
+}
+.stats-bar .inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+.stats-bar h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--gold); margin-bottom: 0.8rem; }
+.stats-bar .sub { font-size: 1rem; opacity: 0.65; max-width: 550px; margin: 0 auto 3rem; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem;
+}
+.stat-item .num { font-family: 'Cormorant Garamond'; font-size: 2.8rem; color: var(--gold); line-height: 1; }
+.stat-item .lbl { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-top: 0.3rem; }
+
+/* === EXPERIENCES MOSAIC === */
+.mosaic-section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+.mosaic-section h2 { text-align: center; font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.5rem; }
+.mosaic-section .sub { text-align: center; color: #8A7B72; margin-bottom: 3rem; }
+.mosaic {
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 220px; gap: 0.6rem;
+}
+.mosaic .card { position: relative; overflow: hidden; border-radius: 3px; cursor: default; }
+.mosaic .card.span2 { grid-row: span 2; }
+.mosaic .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 5s ease; }
+.mosaic .card:hover img { transform: scale(1.06); }
+.mosaic .card .cap {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,21,18,0.75) 0%, transparent 50%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.2rem 1.4rem; color: white;
+}
+.mosaic .card .cap h4 { font-size: 1.15rem; margin-bottom: 0.2rem; }
+.mosaic .card .cap p { font-size: 0.8rem; opacity: 0.8; font-weight: 200; }
+
+/* === CLOSING === */
+.closing {
+  text-align: center; padding: 7rem 2rem 8rem; background: var(--cream);
+}
+.closing h2 { font-size: clamp(2.2rem, 6vw, 3.8rem); margin-bottom: 1.2rem; }
+.closing h2 em { font-style: italic; color: var(--terracotta); }
+.closing p { font-size: 1.1rem; color: #5E4D43; max-width: 560px; margin: 0 auto 2.5rem; }
+.closing .cta {
+  display: inline-block; background: var(--deep); color: var(--gold);
+  font-weight: 500; font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+  padding: 1.1rem 3rem; transition: all 0.3s;
+}
+.closing .cta:hover { background: var(--terracotta); color: white; }
+
+footer {
+  background: var(--deep); color: rgba(255,255,255,0.25);
+  text-align: center; padding: 2rem; font-size: 0.7rem; letter-spacing: 0.15em;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .photo-grid.g2, .photo-grid.g3, .photo-grid.g21, .photo-grid.g12 { grid-template-columns: 1fr; }
+  .mosaic { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+  .mosaic .card.span2 { grid-row: span 1; }
+  .day-hero { height: 55vh; min-height: 350px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ████ HERO ████ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Julho — Agosto 2026</div>
+    <h1>Colorado.<br>Nossa próxima <em>aventura.</em></h1>
+    <p class="hero-sub">14 noites de road trip pelas Montanhas Rochosas. Dunas, cânions, hot springs, vinícolas de altitude, jantares inesquecíveis e as estradas mais bonitas da América do Norte.</p>
+    <a href="#start" class="hero-scroll">Descubra o roteiro</a>
+  </div>
+</section>
+
+<!-- ████ INTRO ████ -->
+<section class="intro" id="start">
+  <h2>Uma viagem pensada para ser <em>vivida</em></h2>
+  <div class="line"></div>
+  <p>Sem correria. Sem acordar às 5h todo dia. Cada lugar tem tempo de sobra para respirar — hot springs entre deslocamentos, manhãs livres, vinícolas sem relógio, jantares longos. São 2.035 km de paisagens que mudam radicalmente a cada hora de volante, mas no ritmo certo para curtir cada uma delas. Seis dos quatorze dias são de descanso ativo — porque viagem boa é viagem que a gente lembra com saudade, não com cansaço.</p>
+</section>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAY 1: DENVER -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1619856699906-09e1f4ef3c3f?w=1600&q=85" alt="Denver skyline com Rockies ao fundo">
+    <div class="overlay">
+      <div class="day-num">Dia 1</div>
+      <h2>Chegada em <em>Denver</em></h2>
+      <div class="location">Colorado, EUA — 1.600m de altitude</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <p>A porta de entrada para as Rochosas. Denver é uma cidade vibrante com uma cena gastronômica e cervejeira que surpreende — e o bairro <strong>RiNo</strong> (River North Art District) é o coração criativo: galerias de arte de rua, cervejarias artesanais em galpões industriais convertidos e restaurantes farm-to-table entre murais coloridos.</p>
+    <p>O plano é simples: chegar, pegar o SUV, jantar num dos melhores restaurantes do estado e hidratar muito — o ar aqui tem metade da umidade de São Paulo, e seu corpo precisa de 48h para se ajustar à altitude.</p>
+  </div>
+  <div class="photo-grid g3">
+    <figure><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80" alt="Union Station Denver"><figcaption>Union Station — o coração de Denver</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1561489413-985b06da5bee?w=600&q=80" alt="RiNo Denver"><figcaption>RiNo Art District — murais e cervejarias</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" alt="Farm to table dinner"><figcaption>Cena farm-to-table premiada</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde jantar</div>
+      <p><strong>Fruition</strong> — chef Alex Seidel opera sua própria fazenda de 4 hectares que abastece o restaurante. Indicado ao James Beard. A definição de farm-to-table. Ou <strong>Annette</strong> — cozinha a lenha, também James Beard nominee, em Olde Town Arvada.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAYS 2-3: GREAT SAND DUNES -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1545147986-a9d6f2ab03b5?w=1600&q=85" alt="Great Sand Dunes ao pôr do sol">
+    <div class="overlay">
+      <div class="day-num">Dias 2 — 3</div>
+      <h2>As dunas mais altas da <em>América do Norte</em></h2>
+      <div class="location">Great Sand Dunes National Park — 2.500m</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <span class="rest-pill">🛋️ Dia de descanso incluso</span>
+    <p>Imagine: 230 metros de areia dourada erguendo-se contra um pano de fundo de picos nevados da Sangre de Cristo, a 2.500m de altitude. Não existe trilha marcada — você simplesmente caminha na imensidão, sobe onde quiser, para onde quiser. Ao pôr do sol, a luz transforma cada crista de areia em ouro líquido.</p>
+    <p>Chegamos no meio da tarde do dia 2, quando a areia esfria e a luz começa a ficar mágica. O dia 3 é inteiramente de descanso: dunas ao amanhecer (antes do calor brutal do meio-dia) e depois <strong>tarde inteira em piscinas termais naturais</strong> com vista para as montanhas, sem absolutamente nada para fazer além de existir.</p>
+    <p>A <strong>Star Dune</strong>, a duna mais alta, exige cerca de 4h de caminhada ida e volta — mas a <strong>High Dune</strong> (2h) já oferece a vista completa do vale e da cordilheira. O silêncio é absoluto. Literalmente um dos lugares mais quietos dos Estados Unidos.</p>
+  </div>
+  <div class="photo-grid g21">
+    <figure><img src="https://images.unsplash.com/photo-1543862475-eb2914bda38d?w=800&q=80" alt="Dunas com montanhas ao fundo"><figcaption>230m de areia contra picos de 4.000m</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600&q=80" alt="Trilha nas dunas"><figcaption>Caminhando na imensidão</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>Joyful Journey Hot Springs</strong> (40 min do parque) — Três piscinas minerais com vista direta para picos de 4.000m da Sangre de Cristo. Hospedagem em yurts e casitas. Banho termal sob as estrelas do deserto. Refeições caseiras com ingredientes locais.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAYS 4-5: DURANGO + MESA VERDE -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1570737209810-8e476be23522?w=1600&q=85" alt="Mesa Verde cliff dwellings">
+    <div class="overlay">
+      <div class="day-num">Dias 4 — 5</div>
+      <h2>Velho Oeste e ruínas <em>ancestrais</em></h2>
+      <div class="location">Durango & Mesa Verde National Park</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <p>O trajeto do dia 4 cruza o <strong>Wolf Creek Pass</strong> a 3.310m — uma estrada de montanha espetacular entre florestas de pinheiro e vales glaciais. Chegamos em Durango no início da tarde.</p>
+    <p><strong>Durango</strong> é uma cidade ferroviária de 1880 que manteve sua alma intacta. A Main Avenue é um corredor de prédios victorianos com saloons genuínos, galerias de arte e restaurantes surpreendentes. O <strong>Diamond Belle Saloon</strong> no Strater Hotel tem ragtime ao vivo — senhoras de vestido de época servindo whiskey enquanto um pianista toca. É teatral, mas autêntico, e absolutamente delicioso.</p>
+    <p>No dia 5: <strong>Mesa Verde National Park</strong>, o único parque nacional dos EUA dedicado inteiramente a construções humanas. As <strong>cliff dwellings</strong> dos Ancestral Puebloans são cidades inteiras — com quartos, praças e torres — construídas dentro de alcantilados entre 1190 e 1270 d.C. O <strong>Cliff Palace</strong>, com 150 quartos, é a maior cliff dwelling da América do Norte. O <strong>Balcony House</strong> é para os aventureiros: inclui subir uma escada de 10 metros, rastejar por um túnel e escalar uma parede com corrente.</p>
+  </div>
+  <div class="photo-grid g3">
+    <figure><img src="https://images.unsplash.com/photo-1533422902779-aff35862e462?w=600&q=80" alt="Durango historic downtown"><figcaption>Main Avenue, Durango — 1880 preservada</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1561032202-9f14e1e3ddfd?w=600&q=80" alt="Mesa Verde ruins"><figcaption>Cliff Palace — 150 quartos na rocha</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=600&q=80" alt="Canyon landscape"><figcaption>Mesa Verde — civilização em vertigem</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>The Strater Hotel</strong> (desde 1887) — 88 quartos únicos com a maior coleção de antiguidades victorianas em nogueira dos EUA. Ragtime ao vivo no Diamond Belle Saloon toda noite. A 2 quadras da estação do trem histórico Durango & Silverton.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ████ QUOTE BREAK: MILLION DOLLAR HIGHWAY ████ -->
+<section class="quote-break">
+  <img src="https://images.unsplash.com/photo-1501611724492-c09bebdbc1b7?w=1920&q=85" alt="Million Dollar Highway">
+  <div class="inner">
+    <h2>"A estrada mais espetacular da América"</h2>
+    <p>Million Dollar Highway — Hairpin turns, precipícios e três passes acima de 3.200m</p>
+  </div>
+</section>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAYS 6-7: OURAY -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1596566835731-41dcd090e34a?w=1600&q=85" alt="Ouray Colorado mountains">
+    <div class="overlay">
+      <div class="day-num">Dias 6 — 7</div>
+      <h2>A Suíça da América <em>e suas hot springs</em></h2>
+      <div class="location">Ouray, Colorado — 2.377m</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <span class="rest-pill">🛋️ Dia de descanso incluso</span>
+    <p>O dia 6 é pura adrenalina visual. Saímos de Durango pela <strong>Million Dollar Highway</strong> — 40 km de curvas fechadas sem guard-rails, precipícios verticais, e passagens por dentro de montanhas de rocha vermelha. O <strong>Red Mountain Pass</strong> (3.358m) é o ponto mais alto, com paisagem lunar de rocha oxidada em tons de ferrugem e ocre. A parada em <strong>Silverton</strong> — uma cidade mineira inteira designada National Historic Landmark, a 2.836m — é como entrar num filme de faroeste.</p>
+    <p>Ouray fica encaixada num <strong>box canyon</strong> cercada por picos de 4.000m em todas as direções. É minúscula, espetacular e tem a maior concentração de hot springs do Colorado. Ao chegar, a única coisa a fazer é mergulhar em tinas de cedro com água termal a 40°C enquanto picos nevados brilham ao redor.</p>
+    <p>O dia 7 é inteiramente livre. Opções: <strong>Yankee Boy Basin</strong> (jeep tour até 3.700m, um vale alpino tapetado de wildflowers — columbines azuis, paintbrush vermelhos, lupines roxos). Ou <strong>Box Canyon Falls</strong>, uma cascata dentro de um cânion tão estreito que mal cabe uma pessoa. Ou simplesmente: hot springs de manhã, almoço lento, hot springs de tarde, chocolates artesanais, repita.</p>
+  </div>
+  <div class="photo-grid g2">
+    <figure><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80" alt="Mountain wildflowers"><figcaption>Yankee Boy Basin — wildflowers a 3.700m</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1600891964599-f94d4eba7abb?w=800&q=80" alt="Hot springs"><figcaption>Hot springs com vista para os San Juans</figcaption></figure>
+  </div>
+  <div class="photo-grid g3" style="margin-top: 0.6rem;">
+    <figure><img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80" alt="Red Mountain Pass"><figcaption>Red Mountain Pass — 3.358m</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1533240332313-0db49b459ad6?w=600&q=80" alt="Mountain road"><figcaption>Million Dollar Highway</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1504681869696-d977211a5f4c?w=600&q=80" alt="Waterfalls canyon"><figcaption>Box Canyon Falls</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>Box Canyon Lodge & Hot Springs</strong> — 7 tinas de cedro escalonadas na encosta da montanha, alimentadas diretamente pela nascente termal. Vista 360° para os picos do San Juan. Hot springs incluídas e disponíveis do nascer ao pôr do sol.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAYS 8-9: TELLURIDE -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1626120032630-4ecec0871fa8?w=1600&q=85" alt="Telluride valley summer">
+    <div class="overlay">
+      <div class="day-num">Dias 8 — 9</div>
+      <h2>A cidade mais bonita <em>do Colorado</em></h2>
+      <div class="location">Telluride — 2.667m</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <span class="rest-pill">🛋️ Dia livre incluso</span>
+    <p>A estrada de Ouray a Telluride pela CO-62 passa pelo <strong>Dallas Divide</strong> — em julho, a vista do <strong>Mt. Sneffels</strong> (4.312m) com campos de wildflowers amarelas em primeiro plano é uma das imagens mais icônicas de todo o estado. Pare no mirante, respire, fotografe.</p>
+    <p>Telluride é daqueles lugares que parecem impossíveis de existir. Uma rua principal de apenas 12 quarteirões, encaixada num <strong>vale glacial em forma de caixa</strong>, com paredes de montanha de 4.000m em três lados e a <strong>Bridal Veil Falls</strong> — a cachoeira mais alta do Colorado, 110 metros de queda livre — visível do centro da cidade. Uma <strong>gôndola gratuita</strong> conecta a cidade a Mountain Village, oferecendo um panorama aéreo que tira o fôlego.</p>
+    <p>O dia 9 é inteiramente seu. Se quiser aventura: a trilha até <strong>Bridal Veil Falls</strong> (5,8 km, moderada a difícil) leva até a base da cachoeira mais alta do Colorado. Se quiser adrenalina: a <strong>Via Ferrata</strong> é uma travessia de 3 km em parede de cânion com cabos de aço — feita com guia, suspensa sobre o vazio, e inesquecível para quem não tem medo de altura. Se quiser paz: café com vista, gôndola, farmers' market (sábados), galerias, livrarias.</p>
+    <p>À noite, <strong>Allred's Restaurant</strong> — acessível apenas pela gôndola a 3.216m de altitude. Menu degustação sazonal com bison, cordeiro do Colorado e trutas, tudo servido com um sunset sobre os San Juans que dura quase uma hora. Reserve antes.</p>
+  </div>
+  <div class="photo-grid g21">
+    <figure><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="Mountain peak"><figcaption>Picos de 4.000m cercam o vale de Telluride</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Gondola mountain" class="tall"><figcaption>Gôndola gratuita — panorama aéreo</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>New Sheridan Hotel</strong> (desde 1895) — Apenas 26 quartos no coração de Main Street. Rooftop hot tubs com vista para picos nevados. O Chop House no térreo serve steaks excelentes. Charme do Velho Oeste com conforto moderno.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAY 10: BLACK CANYON -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600&q=85" alt="Canyon landscape">
+    <div class="overlay">
+      <div class="day-num">Dia 10</div>
+      <h2>O cânion onde a luz <em>mal alcança o fundo</em></h2>
+      <div class="location">Black Canyon of the Gunnison National Park</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <p>Paredes verticais de <strong>685 metros</strong> — tão estreitas e profundas que o sol atinge o fundo do cânion apenas <strong>33 minutos por dia</strong>. O granito negro tem 2 bilhões de anos. O <strong>Painted Wall</strong>, o penhasco mais alto do Colorado, tem veios de rocha rosada e branca cortando a face escura como pinceladas gigantes.</p>
+    <p>Não precisa de trilha longa: os mirantes ao longo do <strong>South Rim Drive</strong> são acessíveis de carro e devastadoramente bonitos. O <strong>Chasm View</strong> permite olhar direto para baixo, 550m de queda vertical até o rio Gunnison. É o tipo de lugar que faz você ficar em silêncio involuntariamente.</p>
+    <p>Depois do Black Canyon, seguimos para <strong>Palisade</strong> — a região vinícola do Colorado, no ponto mais baixo do roteiro (1.397m). Alívio total de altitude e mudança radical de paisagem: de cânion escuro para vale desértico cheio de vinhedos e pomares de pêssego.</p>
+  </div>
+  <div class="photo-grid g2">
+    <figure><img src="https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=800&q=80" alt="Deep canyon"><figcaption>685m de queda vertical — o abismo real</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1477346611705-65d1883cee1e?w=800&q=80" alt="Canyon sunset"><figcaption>Painted Wall ao entardecer</figcaption></figure>
+  </div>
+</div>
+
+<!-- ████ QUOTE BREAK: WINE ████ -->
+<section class="quote-break">
+  <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1920&q=85" alt="Wine tasting">
+  <div class="inner">
+    <h2>"A nova Sonoma"</h2>
+    <p>Food & Wine Magazine — sobre a Grand Valley, Colorado</p>
+  </div>
+</section>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAY 11: PALISADE -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1600&q=85" alt="Vineyard landscape">
+    <div class="overlay">
+      <div class="day-num">Dia 11</div>
+      <h2>Vinhos de altitude, <em>pêssegos e surpresas</em></h2>
+      <div class="location">Palisade Wine Country — 1.397m</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <span class="rest-pill">🛋️ Dia de vinícolas</span>
+    <p>A <strong>Grand Valley</strong> produz vinhos em altitude comparável a Mendoza — entre 1.370 e 1.500m — e é uma das regiões vinícolas mais altas do planeta. A altitude intensifica a radiação solar, produzindo cascas mais grossas (mais cor, tanino e sabor) enquanto as noites frias preservam acidez natural. O resultado: brancos com tensão mineral surpreendente e tintos de estrutura inesperada.</p>
+    <p>Dia inteiro sem carro — tudo é local, a pé ou de bike. Manhã visitando <strong>Colterris Estate</strong> (a maior vinícola 100% estate do Colorado, estilo Bordeaux, vista panorâmica dos vinhedos), <strong>BookCliff Vineyards</strong> (Double Gold para Syrah) e <strong>The Ordinary Fellow</strong> (ex-galpão de pêssegos produzindo Pinot Noir de alta altitude surpreendente).</p>
+    <p>Almoço no <strong>Pêche</strong> — operado por dois alumni do Alinea de Chicago (3 estrelas Michelin), servindo cozinha moderna com influências jamaicanas e indianas em plena wine country. Em agosto, peça o cobbler de pêssego de Palisade — os melhores pêssegos dos EUA, no auge da safra.</p>
+    <p>Tarde na <strong>The Storm Cellar</strong> (em Hotchkiss, 1h de carro) — vinícola do ano pelo CAVE, matéria de capa no Wall Street Journal. Double Gold para Albariño e Grüner Veltliner. Fundada por ex-sommeliers de Denver. Jantares no vinhedo com chefs convidados no verão.</p>
+  </div>
+  <div class="photo-grid g3">
+    <figure><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Vineyard rows"><figcaption>Vinhedos da Grand Valley — altitude de Mendoza</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="Wine tasting"><figcaption>Degustações com queijos locais</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1473348328845-e5af044e85b8?w=600&q=80" alt="Peaches"><figcaption>Agosto: temporada de pêssegos de Palisade</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>Wine Valley Inn</strong> — B&B adults-only em propriedade histórica de 115 anos na Fruit & Wine Byway. Quartos com banheiras clawfoot e camas com dossel. Café da manhã caseiro na varanda com vista. Walking distance para vinícolas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAY 12: GLENWOOD SPRINGS -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1600&q=85" alt="Turquoise lake waterfall">
+    <div class="overlay">
+      <div class="day-num">Dia 12</div>
+      <h2>Lago turquesa suspenso <em>e hot springs ao sunset</em></h2>
+      <div class="location">Glenwood Springs — 1.756m</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <p>O trajeto de Palisade até Glenwood Springs é curto (1h30) e espetacular — o <strong>Glenwood Canyon</strong> é considerado o trecho de interstate mais bonito dos EUA, com paredes de 600 metros de rocha ao longo do Colorado River.</p>
+    <p>Manhã: <strong>Hanging Lake</strong>. Uma trilha de 2,2 km (moderada a difícil, 365m de desnível) leva a uma joia escondida: um lago turquesa alimentado por uma cascata, suspenso numa prateleira de rocha no meio do cânion. A cor da água é irreal — verde-esmeralda tão transparente que parece Photoshop, mas é geologia pura (carbonato de cálcio dissolvido). Permit obrigatório.</p>
+    <p>Tarde: <strong>Iron Mountain Hot Springs</strong> — 16 piscinas de pedra natural com temperaturas entre 37°C e 42°C, todas com vista direta para o Colorado River. É a opção mais romântica de hot springs do estado: piscinas menores, mais íntimas, com o rio correndo logo abaixo e as montanhas ao redor. Fique até o sunset — quando a luz dourada bate nas paredes do cânion e as piscinas ficam iluminadas por lanternas.</p>
+  </div>
+  <div class="photo-grid g2">
+    <figure><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Crystal water"><figcaption>Hanging Lake — água turquesa impossível</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80" alt="Hot springs sunset"><figcaption>Iron Mountain — 16 piscinas termais ao sunset</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>Hotel Colorado</strong> (desde 1893) — National Register of Historic Places. Hospedou os presidentes Teddy Roosevelt e Taft. Walking distance para as hot springs. Charme vitoriano preservado em reformas recentes.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAYS 13-14: ASPEN + MAROON BELLS -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=1600&q=85" alt="Maroon Bells reflection autumn">
+    <div class="overlay">
+      <div class="day-num">Dias 13 — 14</div>
+      <h2>Maroon Bells, Aspen <em>e o topo do mundo</em></h2>
+      <div class="location">Aspen — 2.411m / Independence Pass — 3.687m</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <span class="rest-pill">🛋️ Dia lento incluso</span>
+    <p>Dia 13: saímos de Glenwood cedo e pegamos o <strong>primeiro shuttle para Maroon Bells</strong> às 8h. Os dois picos simétricos de 4.300m refletidos num lago cristalino ao amanhecer, cercados por wildflowers e florestas de aspen prateadas — é a <strong>imagem mais fotografada do Colorado</strong>, e ao vivo é ainda mais surreal.</p>
+    <p>A trilha até <strong>Crater Lake</strong> (5,8 km ida e volta, moderada) revela uma vista superior à do famoso lago de reflexo: Pyramid Peak (4.275m) erguendo-se verticalmente acima do lago, com campos de wildflowers em julho. É a trilha com melhor relação esforço/recompensa de toda a viagem.</p>
+    <p><strong>Aspen</strong> surpreende: não é só playground de bilionários. A Main Street tem galerias de arte, lojas de design, arquitetura vitoriana preservada e restaurantes de nível extraordinário — incluindo o <strong>Bosq</strong>, o primeiro restaurante com <strong>estrela Michelin</strong> de Aspen, com menu degustação hiper-local feito com ingredientes foragidos do Roaring Fork Valley.</p>
+    <p>Dia 14: manhã sem alarme. Café longo. Meio da manhã, dirija 25 km até o topo do <strong>Independence Pass (3.687m)</strong> — a estrada pavimentada mais alta das Rochosas cruzando o Continental Divide. No topo: tundra alpina, ar rarefeito, silêncio absoluto, e o mundo inteiro aos seus pés. Caminhada curta de 15 min na tundra, fotos, e volta para Aspen. Tarde livre na cidade, compras, e jantar de despedida memorável.</p>
+  </div>
+  <div class="photo-grid g3">
+    <figure><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80" alt="Mountain peaks"><figcaption>Maroon Bells — dois picos, um reflexo perfeito</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1502003148287-a82ef80a6b2c?w=600&q=80" alt="Alpine wildflowers"><figcaption>Wildflowers no caminho para Crater Lake</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=600&q=80" alt="Mountain pass road"><figcaption>Independence Pass — 3.687m, o topo do mundo</figcaption></figure>
+  </div>
+  <div class="photo-grid g2" style="margin-top: 0.6rem;">
+    <figure><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Fine dining"><figcaption>Bosq — estrela Michelin com menu foragido</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80" alt="Town street"><figcaption>Aspen — charme vitoriano e sofisticação</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>Limelight Hotel</strong> — Boutique moderno no coração de Aspen. Café da manhã incluso, Audi EV emprestado para hóspedes, piscina com vista para as montanhas. Sofisticado sem ser pretensioso — exatamente o espírito da viagem.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day-spacer"></div>
+
+<!-- ██████████████████████████████████████████████████ -->
+<!-- DAYS 15-16: RMNP + ESTES PARK -->
+<!-- ██████████████████████████████████████████████████ -->
+<div class="day-block" data-anim>
+  <div class="day-hero">
+    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=85" alt="Rocky Mountain National Park">
+    <div class="overlay">
+      <div class="day-num">Dias 15 — 16</div>
+      <h2>O gran finale: <em>acima das nuvens</em></h2>
+      <div class="location">Rocky Mountain National Park & Estes Park</div>
+    </div>
+  </div>
+  <div class="day-content">
+    <p>Dia 15: o deslocamento mais longo da viagem (4h30 com parada). Cruzamos o Independence Pass (desta vez inteiro), passamos por <strong>Leadville</strong> (a cidade mais alta dos EUA, 3.094m) e paramos em <strong>Breckenridge</strong> para almoço — uma Main Street charmosa de cidade de mineração com cervejarias excelentes (peça a Coconut Porter da Broken Compass). Seguimos até Estes Park, a porta de entrada do Rocky Mountain National Park.</p>
+    <p>Dia 16: o gran finale. <strong>Trail Ridge Road</strong> atinge <strong>3.713 metros</strong> — a rodovia pavimentada contínua mais alta da América do Norte. São 17 km acima da treeline, onde a tundra alpina encontra o céu e a vista se estende até o infinito. Elk, marmots e pikas vivem nessa paisagem que parece outro planeta.</p>
+    <p>No <strong>Bear Lake Corridor</strong>: a trilha de <strong>Emerald Lake</strong> (5,6 km, moderada) passa por três lagos glaciais — Nymph, Dream e Emerald — cada um mais bonito que o anterior, encaixados entre picos graníticos e florestas de pinheiro. Para quem quer o desafio final: <strong>Sky Pond</strong> (14,5 km, difícil) é um lago glacial a 3.322m com cachoeira — considerada a trilha mais espetacular do parque inteiro.</p>
+    <p>Retorno a Denver no fim da tarde. Último jantar, ou direto ao aeroporto com a mala cheia de memórias.</p>
+  </div>
+  <div class="photo-grid g21">
+    <figure><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=85" alt="Mountain lake"><figcaption>Emerald Lake — lagos glaciais entre picos de granito</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=85" alt="Mountain summit" class="tall"><figcaption>3.713m — acima da treeline</figcaption></figure>
+  </div>
+  <div class="photo-grid g3" style="margin-top: 0.6rem;">
+    <figure><img src="https://images.unsplash.com/photo-1475776408506-9a5371e7a068?w=600&q=80" alt="Elk"><figcaption>Elk — encontros frequentes no parque</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=600&q=80" alt="Alpine trail"><figcaption>Trail Ridge Road — estrada acima das nuvens</figcaption></figure>
+    <figure><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="Stanley Hotel"><figcaption>The Stanley Hotel — inspiração de O Iluminado</figcaption></figure>
+  </div>
+  <div class="highlight">
+    <div class="highlight-inner">
+      <div class="hl-tag">Onde ficar</div>
+      <p><strong>The Stanley Hotel</strong> (desde 1909) — O hotel que inspirou O Iluminado de Stephen King. Vistas panorâmicas para as Rockies e Lake Estes. Ghost tours, whiskey bar, música ao vivo. O encerramento perfeito para a viagem.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ████ STATS BAR ████ -->
+<section class="stats-bar">
+  <div class="inner">
+    <h2>A viagem em números</h2>
+    <p class="sub">Tudo pensado para o ritmo certo — com tempo de sobra para viver cada lugar.</p>
+    <div class="stats-grid">
+      <div class="stat-item"><div class="num">14</div><div class="lbl">Noites</div></div>
+      <div class="stat-item"><div class="num">6</div><div class="lbl">Dias de descanso</div></div>
+      <div class="stat-item"><div class="num">4</div><div class="lbl">Parques nacionais</div></div>
+      <div class="stat-item"><div class="num">5+</div><div class="lbl">Hot springs</div></div>
+      <div class="stat-item"><div class="num">3.713m</div><div class="lbl">Altitude máxima</div></div>
+      <div class="stat-item"><div class="num">2.035</div><div class="lbl">Km de paisagens</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ EXPERIENCES MOSAIC ████ -->
+<section class="mosaic-section">
+  <h2>O que nos espera</h2>
+  <p class="sub">Além das estradas e dos mirantes</p>
+  <div class="mosaic">
+    <div class="card span2">
+      <img src="https://images.unsplash.com/photo-1600891964599-f94d4eba7abb?w=700&q=80" alt="Hot springs">
+      <div class="cap"><h4>Hot Springs</h4><p>Tinas de cedro na montanha, piscinas termais ao pôr do sol, vapor caves subterrâneas</p></div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&q=80" alt="Road">
+      <div class="cap"><h4>Estradas Épicas</h4><p>Million Dollar Highway, Independence Pass, Trail Ridge Road</p></div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="Wine">
+      <div class="cap"><h4>Vinhos de Altitude</h4><p>Albariño, Grüner Veltliner, Syrah — degustações com vista</p></div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" alt="Hiking">
+      <div class="cap"><h4>Trilhas</h4><p>Lagos glaciais, cachoeiras, wildflowers, tundra alpina</p></div>
+    </div>
+    <div class="card span2">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Dining">
+      <div class="cap"><h4>Gastronomia</h4><p>Estrela Michelin em Aspen, alumni do Alinea em Palisade, farm-to-table em Denver, ragtime e whiskey em Durango</p></div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="Hotels">
+      <div class="cap"><h4>Hotéis com Alma</h4><p>Victorianos de 1887, lodges com hot springs, o hotel de O Iluminado</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ CLOSING ████ -->
+<section class="closing">
+  <h2>Julho 2026.<br><em>Vamos?</em></h2>
+  <p>14 noites nas Montanhas Rochosas. Hot springs entre picos nevados, vinícolas de altitude, estradas impossíveis, jantares sob as estrelas e paisagens que a gente vai lembrar para sempre.</p>
+  <div class="cta">Julho — Agosto 2026</div>
+</section>
+
+<footer>Colorado Road Trip — Planejado com carinho ❤️ 2026</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
+
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('error', function() {
+    this.style.display = 'none';
+    if (this.parentElement.tagName === 'FIGURE') {
+      this.parentElement.style.background = 'linear-gradient(135deg, #3B2F2A, #5B7FA5, #7A8B6F)';
+      this.parentElement.style.minHeight = '200px';
+    } else {
+      this.parentElement.style.background = 'linear-gradient(135deg, #3B2F2A, #5B7FA5)';
+    }
+  });
+});
+</script>
+</body>
+</html>
