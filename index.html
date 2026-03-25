@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colorado — Nossa Próxima Aventura</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sand: #E8DDD3;
+  --earth: #3B2F2A;
+  --terracotta: #C2703E;
+  --sage: #7A8B6F;
+  --sky: #5B7FA5;
+  --cream: #F5F0EB;
+  --warm-white: #FAF8F5;
+  --deep: #1E1714;
+  --gold: #C9A96E;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--earth);
+  background: var(--warm-white);
+  overflow-x: hidden;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+/* ============ HERO ============ */
+.hero {
+  height: 100vh;
+  min-height: 700px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1920&q=80') center/cover no-repeat;
+  filter: brightness(0.55);
+  transform: scale(1.05);
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+  0% { transform: scale(1.05); }
+  100% { transform: scale(1.12); }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  color: white;
+  padding: 2rem;
+  animation: fadeUp 1.5s ease-out;
+}
+
+.hero-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1.08;
+  margin-bottom: 1.2rem;
+  font-weight: 400;
+}
+
+.hero h1 em { font-style: italic; color: var(--gold); }
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 300;
+  max-width: 550px;
+  margin: 0 auto 2.5rem;
+  opacity: 0.9;
+  line-height: 1.7;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.6);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  animation: pulse 2s ease-in-out infinite;
+  z-index: 2;
+}
+
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  margin: 0.8rem auto 0;
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0%, 100% { transform: scaleY(1); opacity: 0.3; }
+  50% { transform: scaleY(1.5); opacity: 0.7; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ INTRO ============ */
+.intro {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.intro h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 1.5rem;
+  line-height: 1.25;
+}
+
+.intro p {
+  font-size: 1.1rem;
+  color: #5A4A40;
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background: var(--terracotta);
+  margin: 2rem auto;
+}
+
+/* ============ TIMELINE ============ */
+.timeline {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+/* Stop Section */
+.stop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 0;
+  min-height: 90vh;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.stop.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stop:nth-child(even) { direction: rtl; }
+.stop:nth-child(even) > * { direction: ltr; }
+
+.stop-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.stop-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 8s ease;
+}
+
+.stop:hover .stop-image img {
+  transform: scale(1.05);
+}
+
+.stop-image .day-badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: var(--deep);
+  color: var(--gold);
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+}
+
+.stop:nth-child(even) .stop-image .day-badge {
+  left: auto;
+  right: 2rem;
+}
+
+.stop-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 5vw, 5rem);
+  background: var(--warm-white);
+}
+
+.stop:nth-child(even) .stop-content {
+  background: var(--cream);
+}
+
+.stop-content .location-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.8rem;
+}
+
+.stop-content h3 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+}
+
+.stop-content h3 em { font-style: italic; }
+
+.stop-content p {
+  font-size: 1rem;
+  color: #5A4A40;
+  margin-bottom: 1rem;
+}
+
+.stop-content .highlight-box {
+  margin-top: 1.5rem;
+  padding: 1.2rem 1.5rem;
+  background: rgba(194, 112, 62, 0.08);
+  border-left: 3px solid var(--terracotta);
+  font-size: 0.92rem;
+}
+
+.stop-content .highlight-box strong {
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+.rest-badge {
+  display: inline-block;
+  background: var(--sage);
+  color: white;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+
+/* ============ FULL-WIDTH BREAK ============ */
+.full-break {
+  position: relative;
+  height: 70vh;
+  min-height: 400px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.full-break img {
+  position: absolute; inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45);
+}
+
+.full-break .quote {
+  position: relative;
+  z-index: 2;
+  color: white;
+  max-width: 700px;
+  padding: 2rem;
+}
+
+.full-break .quote h2 {
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-style: italic;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.full-break .quote p {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ============ SUMMARY STRIP ============ */
+.summary {
+  background: var(--deep);
+  color: var(--sand);
+  padding: 5rem 2rem;
+}
+
+.summary-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.summary h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.summary .sub {
+  font-size: 1.05rem;
+  max-width: 650px;
+  margin: 0 auto 3rem;
+  opacity: 0.8;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stat {
+  padding: 1.5rem;
+}
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* ============ EXPERIENCES GRID ============ */
+.experiences {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.experiences h2 {
+  text-align: center;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 0.5rem;
+}
+
+.experiences .sub {
+  text-align: center;
+  color: #5A4A40;
+  margin-bottom: 3rem;
+  font-size: 1.05rem;
+}
+
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.exp-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+}
+
+.exp-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 6s ease;
+}
+
+.exp-card:hover img { transform: scale(1.08); }
+
+.exp-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(30,23,20,0.85) 0%, rgba(30,23,20,0.1) 50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.8rem;
+  color: white;
+}
+
+.exp-card .overlay h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.exp-card .overlay p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: 300;
+}
+
+/* ============ CTA / CLOSING ============ */
+.closing {
+  text-align: center;
+  padding: 6rem 2rem 8rem;
+  background: var(--cream);
+}
+
+.closing h2 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.closing h2 em { font-style: italic; color: var(--terracotta); }
+
+.closing p {
+  font-size: 1.1rem;
+  color: #5A4A40;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.closing .dates {
+  display: inline-block;
+  background: var(--deep);
+  color: var(--gold);
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  margin-top: 1rem;
+}
+
+/* ============ FOOTER ============ */
+footer {
+  background: var(--deep);
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .stop {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .stop:nth-child(even) { direction: ltr; }
+  .stop-image { min-height: 350px; }
+  .exp-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Julho — Agosto 2026</div>
+    <h1>Colorado.<br>Nossa próxima <em>aventura.</em></h1>
+    <p class="hero-sub">14 noites de road trip pelas Montanhas Rochosas. Dunas de areia, cânions vertiginosos, hot springs sob as estrelas, vinícolas de altitude e as estradas mais bonitas da América do Norte.</p>
+  </div>
+  <div class="scroll-hint">Descubra o roteiro</div>
+</section>
+
+<!-- ===== INTRO ===== -->
+<section class="intro">
+  <h2>Uma viagem pensada para ser <em>vivida</em>, não apenas percorrida</h2>
+  <div class="divider"></div>
+  <p>Sem correria, sem alarmes de madrugada obrigatórios. Cada parada do roteiro tem tempo para respirar — dias de hot springs entre deslocamentos, manhãs livres em cidades encantadoras, e jantares longos em restaurantes que valem a viagem. São 2.035 km de paisagens que mudam radicalmente a cada hora de volante, mas no ritmo certo para aproveitar cada uma delas.</p>
+</section>
+
+<!-- ===== STOP 1: GREAT SAND DUNES ===== -->
+<div class="timeline">
+
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1545147986-a9d6f2ab03b5?w=900&q=80" alt="Great Sand Dunes" loading="lazy">
+    <div class="day-badge">Dias 2 — 3</div>
+  </div>
+  <div class="stop-content">
+    <span class="rest-badge">🛋️ Dia de descanso incluso</span>
+    <div class="location-tag">Great Sand Dunes National Park</div>
+    <h3>As dunas mais altas da <em>América do Norte</em></h3>
+    <p>230 metros de areia dourada contra um pano de fundo de picos nevados da Sangre de Cristo. Não existe trilha — você simplesmente caminha na imensidão. Ao pôr do sol, a luz dourada transforma cada crista em uma obra de arte.</p>
+    <p>No dia seguinte, sem pressa: suba as dunas ao amanhecer, depois tarde inteira em piscinas termais naturais com vista para as montanhas.</p>
+    <div class="highlight-box">
+      <strong>Joyful Journey Hot Springs</strong> — Banho termal sob as estrelas com vista para picos de 4.000m. Yurts e casitas em meio à natureza.
+    </div>
+  </div>
+</section>
+
+<!-- ===== STOP 2: DURANGO + MESA VERDE ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1570737209810-8e476be23522?w=900&q=80" alt="Mesa Verde" loading="lazy">
+    <div class="day-badge">Dias 4 — 5</div>
+  </div>
+  <div class="stop-content">
+    <div class="location-tag">Durango & Mesa Verde</div>
+    <h3>Cidades do <em>Velho Oeste</em> e ruínas ancestrais</h3>
+    <p>Durango é uma cidade ferroviária de 1880 que manteve sua alma intacta — saloons com piano ragtime ao vivo, restaurantes surpreendentes e ruas históricas cheias de charme.</p>
+    <p>Mesa Verde guarda as cliff dwellings dos Ancestral Puebloans — cidades inteiras construídas dentro de alcantilados há mais de 700 anos. Cliff Palace, com seus 150 quartos esculpidos na rocha, é um lugar que faz o tempo parar.</p>
+    <div class="highlight-box">
+      <strong>Strater Hotel (1887)</strong> — Pernoite num hotel vitoriano com a maior coleção de antiguidades em nogueira dos EUA. Ragtime ao vivo no Diamond Belle Saloon.
+    </div>
+  </div>
+</section>
+
+</div><!-- end timeline -->
+
+<!-- ===== FULL BREAK: MILLION DOLLAR HIGHWAY ===== -->
+<section class="full-break">
+  <img src="https://images.unsplash.com/photo-1501611724492-c09bebdbc1b7?w=1920&q=80" alt="Million Dollar Highway" loading="lazy">
+  <div class="quote">
+    <h2>"A estrada mais espetacular da América"</h2>
+    <p>Million Dollar Highway — Dia 6</p>
+  </div>
+</section>
+
+<div class="timeline">
+
+<!-- ===== STOP 3: OURAY ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1596566835731-41dcd090e34a?w=900&q=80" alt="Ouray Hot Springs" loading="lazy">
+    <div class="day-badge">Dias 6 — 7</div>
+  </div>
+  <div class="stop-content">
+    <span class="rest-badge">🛋️ Dia de descanso incluso</span>
+    <div class="location-tag">Ouray — A Suíça da América</div>
+    <h3>Hot springs entre <em>picos de 4.000m</em></h3>
+    <p>Encaixada num box canyon cercada por montanhas vertiginosas, Ouray é onde a Million Dollar Highway termina e o relaxamento começa. Tinas de cedro escalonadas na encosta da montanha, alimentadas diretamente por nascentes termais.</p>
+    <p>No dia de descanso: jeep tour pelo Yankee Boy Basin — um vale alpino tapetado de wildflowers a 3.700m — ou simplesmente um dia inteiro entre banhos termais e chocolates artesanais.</p>
+    <div class="highlight-box">
+      <strong>Box Canyon Lodge</strong> — 7 tinas de cedro com vista 360° para os picos do San Juan. Hot springs incluídas, disponíveis do nascer ao pôr do sol.
+    </div>
+  </div>
+</section>
+
+<!-- ===== STOP 4: TELLURIDE ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1626120032630-4ecec0871fa8?w=900&q=80" alt="Telluride" loading="lazy">
+    <div class="day-badge">Dias 8 — 9</div>
+  </div>
+  <div class="stop-content">
+    <span class="rest-badge">🛋️ Dia livre incluso</span>
+    <div class="location-tag">Telluride</div>
+    <h3>A cidade mais bonita <em>do Colorado</em></h3>
+    <p>Encaixada num vale glacial com uma cachoeira de 110 metros como pano de fundo, Telluride é daqueles lugares que parecem impossíveis de existir. Gôndola gratuita conecta a cidade a Mountain Village — almoce a 3.200m com vista panorâmica dos San Juans.</p>
+    <p>O dia livre é presente: trilha até a Bridal Veil Falls, farmers' market, galerias, ou simplesmente café com vista. À noite, jantar no Allred's — acessível apenas pela gôndola, com menu degustação e sunset sobre as montanhas.</p>
+    <div class="highlight-box">
+      <strong>New Sheridan Hotel (1895)</strong> — 26 quartos boutique, rooftop hot tubs com vista para picos nevados. O charme do Velho Oeste com o conforto que a gente merece.
+    </div>
+  </div>
+</section>
+
+<!-- ===== STOP 5: BLACK CANYON ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=80" alt="Black Canyon of the Gunnison" loading="lazy">
+    <div class="day-badge">Dia 10</div>
+  </div>
+  <div class="stop-content">
+    <div class="location-tag">Black Canyon of the Gunnison</div>
+    <h3>O cânion onde o sol entra <em>apenas 33 minutos por dia</em></h3>
+    <p>Paredes verticais de 685 metros — tão estreitas e profundas que a luz do sol mal alcança o fundo. O Painted Wall é o penhasco mais alto do Colorado, com veios de rocha rosada cortando granito negro de 2 bilhões de anos.</p>
+    <p>Não precisa de trilha longa: os mirantes ao longo da estrada panorâmica são acessíveis e devastadoramente bonitos. O tipo de lugar que te faz ficar em silêncio.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ===== FULL BREAK: WINE COUNTRY ===== -->
+<section class="full-break">
+  <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1920&q=80" alt="Wine tasting" loading="lazy">
+  <div class="quote">
+    <h2>"A nova Sonoma" — Food & Wine Magazine</h2>
+    <p>Palisade Wine Country — Dia 11</p>
+  </div>
+</section>
+
+<div class="timeline">
+
+<!-- ===== STOP 6: PALISADE ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=900&q=80" alt="Palisade vineyards" loading="lazy">
+    <div class="day-badge">Dia 11</div>
+  </div>
+  <div class="stop-content">
+    <span class="rest-badge">🛋️ Dia de vinícolas</span>
+    <div class="location-tag">Palisade — Wine Country</div>
+    <h3>Vinhos de altitude, <em>pêssegos e surpresas</em></h3>
+    <p>A Grand Valley produz vinhos em altitude comparável a Mendoza — Albariño com mineralidade que lembra Rías Baixas, Grüner Veltliner com tensão, Syrah encorpado. Em agosto, os melhores pêssegos dos Estados Unidos estão no auge.</p>
+    <p>Dia sem carro: vinícolas a pé ou de bike, almoço em restaurante comandado por alumni do Alinea de Chicago (3 estrelas Michelin), degustações com vista para as Book Cliffs. O tipo de dia em que ninguém conta as horas.</p>
+    <div class="highlight-box">
+      <strong>The Storm Cellar</strong> — Vinícola do ano pelo CAVE, matéria de capa no Wall Street Journal. Double Gold para Albariño e Grüner Veltliner. Jantares no vinhedo com chefs convidados no verão.
+    </div>
+  </div>
+</section>
+
+<!-- ===== STOP 7: GLENWOOD SPRINGS ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80" alt="Hanging Lake" loading="lazy">
+    <div class="day-badge">Dia 12</div>
+  </div>
+  <div class="stop-content">
+    <div class="location-tag">Glenwood Springs</div>
+    <h3>Lago suspenso cor turquesa <em>e hot springs ao pôr do sol</em></h3>
+    <p>Hanging Lake é uma joia natural: um lago turquesa alimentado por cascata, suspenso numa prateleira de rocha no meio do cânion. A trilha é curta mas recompensadora. Depois, a tarde perfeita: 16 piscinas termais com vista para o rio Colorado ao entardecer.</p>
+    <p>Iron Mountain Hot Springs é a opção mais romântica do estado — piscinas de pedra natural de diferentes temperaturas, sem pressa, com o rio correndo logo abaixo.</p>
+    <div class="highlight-box">
+      <strong>Hotel Colorado (1893)</strong> — Hospedou o presidente Teddy Roosevelt. National Register of Historic Places. A poucos passos das hot springs.
+    </div>
+  </div>
+</section>
+
+<!-- ===== STOP 8: ASPEN + MAROON BELLS ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=900&q=80" alt="Maroon Bells reflection" loading="lazy">
+    <div class="day-badge">Dias 13 — 14</div>
+  </div>
+  <div class="stop-content">
+    <span class="rest-badge">🛋️ Dia lento incluso</span>
+    <div class="location-tag">Aspen & Maroon Bells</div>
+    <h3>A imagem mais icônica <em>do Colorado</em></h3>
+    <p>Dois picos simétricos refletidos num lago cristalino ao amanhecer, cercados por wildflowers e florestas de aspen. Maroon Bells é o lugar mais fotografado do Colorado por um motivo — e a trilha até Crater Lake revela uma vista ainda mais espetacular.</p>
+    <p>Aspen surpreende: não é só playground de ricos. Galerias de arte, arquitetura vitoriana preservada, restaurantes com estrela Michelin, e a travessia do Independence Pass a 3.687m — a estrada pavimentada mais alta das Rochosas.</p>
+    <div class="highlight-box">
+      <strong>Independence Pass (3.687m)</strong> — Tundra alpina, ar rarefeito, o mundo inteiro aos seus pés. Uma das experiências mais inesquecíveis de qualquer road trip na América do Norte.
+    </div>
+  </div>
+</section>
+
+<!-- ===== STOP 9: RMNP ===== -->
+<section class="stop" data-animate>
+  <div class="stop-image">
+    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=80" alt="Rocky Mountain National Park" loading="lazy">
+    <div class="day-badge">Dias 15 — 16</div>
+  </div>
+  <div class="stop-content">
+    <div class="location-tag">Rocky Mountain National Park</div>
+    <h3>O gran finale: <em>acima das nuvens</em></h3>
+    <p>Trail Ridge Road atinge 3.713 metros — a rodovia pavimentada contínua mais alta da América do Norte. São 17 quilômetros acima da treeline, onde a tundra alpina encontra o céu e a vista se estende até o infinito.</p>
+    <p>No último dia, a trilha de Emerald Lake passa por três lagos glaciais encaixados entre picos graníticos. Ou, para quem quer o desafio final, Sky Pond — lago glacial a 3.322m com cachoeira, considerada a trilha mais espetacular do parque.</p>
+    <div class="highlight-box">
+      <strong>The Stanley Hotel (1909)</strong> — O hotel que inspirou O Iluminado de Stephen King. Vistas panorâmicas, ghost tours, whiskey bar. O encerramento perfeito.
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ===== SUMMARY STATS ===== -->
+<section class="summary">
+  <div class="summary-inner">
+    <h2>O roteiro em números</h2>
+    <p class="sub">Uma road trip desenhada para o ritmo certo — com tempo de sobra para viver cada lugar.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">14</div>
+        <div class="stat-label">Noites</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Dias de descanso</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Parques nacionais</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Hot springs</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">3.713m</div>
+        <div class="stat-label">Altitude máxima</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">2.035</div>
+        <div class="stat-label">Km de paisagens</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCES GRID ===== -->
+<section class="experiences">
+  <h2>O que nos espera</h2>
+  <p class="sub">Além das estradas e dos mirantes</p>
+  <div class="exp-grid">
+    <div class="exp-card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f94d4eba7abb?w=600&q=80" alt="Hot springs" loading="lazy">
+      <div class="overlay">
+        <h4>Hot Springs</h4>
+        <p>Tinas de cedro na montanha, piscinas termais com vista para o rio, vapor caves subterrâneas</p>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&q=80" alt="Scenic drives" loading="lazy">
+      <div class="overlay">
+        <h4>Estradas Épicas</h4>
+        <p>Million Dollar Highway, Independence Pass, Trail Ridge Road — as mais bonitas da América</p>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="Wine" loading="lazy">
+      <div class="overlay">
+        <h4>Vinhos de Altitude</h4>
+        <p>Albariño com mineralidade, Grüner Veltliner, degustações com vista para vinhedos e cânions</p>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" alt="Hiking" loading="lazy">
+      <div class="overlay">
+        <h4>Trilhas Inesquecíveis</h4>
+        <p>Lagos glaciais, cachoeiras, wildflowers alpinas, tundra a 3.700m</p>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Dining" loading="lazy">
+      <div class="overlay">
+        <h4>Gastronomia</h4>
+        <p>Estrela Michelin em Aspen, farm-to-table em Denver, alumni do Alinea em Palisade</p>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="Hotels" loading="lazy">
+      <div class="overlay">
+        <h4>Hotéis com Alma</h4>
+        <p>Victorianos de 1887, lodges com hot springs, B&Bs em vinícolas, o hotel de O Iluminado</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSING ===== -->
+<section class="closing">
+  <h2>Julho 2026.<br><em>Vamos?</em></h2>
+  <p>14 noites nas Montanhas Rochosas. Hot springs, vinícolas, estradas impossíveis, jantares sob as estrelas e paisagens que a gente vai lembrar para sempre.</p>
+  <div class="dates">Julho — Agosto 2026</div>
+</section>
+
+<footer>
+  Colorado Road Trip — Planejado com carinho, 2026
+</footer>
+
+<script>
+// Intersection Observer for scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+
+// Fallback for broken images - replace with a gradient placeholder
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('error', function() {
+    this.style.display = 'none';
+    this.parentElement.style.background = 'linear-gradient(135deg, #3B2F2A 0%, #5B7FA5 50%, #7A8B6F 100%)';
+  });
+});
+</script>
+
+</body>
+</html>
